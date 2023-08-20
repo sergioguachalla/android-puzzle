@@ -10,6 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link LevelOneFragment#newInstance} factory method to
@@ -31,15 +36,7 @@ public class LevelOneFragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LevelOneFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static LevelOneFragment newInstance(String param1, String param2) {
         LevelOneFragment fragment = new LevelOneFragment();
         Bundle args = new Bundle();
@@ -64,6 +61,7 @@ public class LevelOneFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_level_one, container, false);
         initializeTiles(view);
+        shuffleTiles();
         return view;
     }
 
@@ -101,10 +99,46 @@ public class LevelOneFragment extends Fragment {
                         }
                     }
                 });
+
             }
         }
 
     }
+
+    private void shuffleTiles() {
+        List<Integer> positions = new ArrayList<>();
+        for (int i = 0; i < 3 * 3; i++) {
+            positions.add(i);
+        }
+        Collections.shuffle(positions);
+
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                int newPosition = positions.get(i * 3 + j);
+                int newRow = newPosition / 3;
+                int newCol = newPosition % 3;
+
+                String currentText = textViews[i][j].getText().toString();
+                Drawable currentBackground = textViews[i][j].getBackground();
+
+                textViews[i][j].setText(textViews[newRow][newCol].getText());
+                textViews[i][j].setBackground(textViews[newRow][newCol].getBackground());
+
+                textViews[newRow][newCol].setText(currentText);
+                textViews[newRow][newCol].setBackground(currentBackground);
+
+                if (currentText.equals("X")) {
+                    emptyRow = newRow;
+                    emptyCol = newCol;
+                }
+            }
+        }
+    }
+
+
+
+
+
 
 
 
