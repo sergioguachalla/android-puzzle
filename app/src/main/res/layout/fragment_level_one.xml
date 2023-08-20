@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".LevelOneFragment"
+    android:background="#fffaaa"
     >
 
     <GridLayout
@@ -13,7 +14,8 @@
         android:layout_gravity="center"
         android:columnCount="3"
         android:padding="24dp"
-        android:rowCount="3">
+        android:rowCount="3"
+        android:layout_marginLeft="80dp">
 
         <TextView
             android:id="@+id/textView1"
@@ -25,6 +27,8 @@
             android:layout_columnWeight="1"
             android:layout_margin="4dp"
             android:gravity="center"
+            android:background="#afa0a0"
+            android:textSize="24dp"
             android:text="1" />
 
         <TextView
@@ -37,6 +41,9 @@
             android:layout_columnWeight="1"
             android:gravity="center"
             android:layout_margin="4dp"
+            android:textSize="24dp"
+            android:background="#afa0a0"
+
             android:text="2" />
 
 
@@ -50,7 +57,9 @@
             android:layout_columnWeight="1"
             android:gravity="center"
             android:layout_margin="4dp"
+            android:background="#afa0a0"
 
+            android:textSize="24dp"
             android:text="3" />
 
         <TextView
@@ -61,9 +70,11 @@
             android:layout_rowWeight="1"
             android:layout_column="0"
             android:layout_columnWeight="1"
+            android:background="#afa0a0"
+
             android:gravity="center"
             android:layout_margin="4dp"
-
+            android:textSize="24dp"
             android:text="4" />
 
 
@@ -76,8 +87,10 @@
             android:layout_column="1"
             android:layout_columnWeight="1"
             android:gravity="center"
-            android:layout_margin="4dp"
+            android:background="#afa0a0"
 
+            android:layout_margin="4dp"
+            android:textSize="24dp"
             android:text="5" />
 
         <TextView
@@ -89,7 +102,10 @@
             android:layout_column="2"
             android:layout_columnWeight="1"
             android:gravity="center"
+            android:background="#afa0a0"
+
             android:layout_margin="4dp"
+            android:textSize="24dp"
             android:text="6" />
 
 
@@ -103,6 +119,9 @@
             android:layout_columnWeight="1"
             android:gravity="center"
             android:layout_margin="4dp"
+            android:background="#afa0a0"
+
+            android:textSize="24dp"
             android:text="7" />
 
 
@@ -116,6 +135,8 @@
             android:layout_columnWeight="1"
             android:gravity="center"
             android:layout_margin="4dp"
+            android:textSize="24dp"
+            android:background="#afa0a0"
 
             android:text="8" />
 
@@ -129,8 +150,11 @@
             android:layout_columnWeight="1"
             android:gravity="center"
             android:layout_margin="4dp"
+            android:textSize="24dp"
+            android:background="#F4F1F1"
 
             android:text="X" />
+
 
     </GridLayout>
 

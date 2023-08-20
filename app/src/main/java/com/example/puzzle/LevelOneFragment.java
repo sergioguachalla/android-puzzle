@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,8 +16,9 @@ import android.view.ViewGroup;
  */
 public class LevelOneFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private TextView[][] textViews = new TextView[3][3];
+    private int emptyRow = 2; // Fila vacía inicial
+    private int emptyCol = 2;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -59,6 +61,41 @@ public class LevelOneFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_level_one, container, false);
+        View view = inflater.inflate(R.layout.fragment_level_one, container, false);
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                String textViewId = "textView" + i + j;
+                int resId = getResources().getIdentifier(textViewId, "id", requireActivity().getPackageName());
+                textViews[i][j] = view.findViewById(resId);
+
+                final int finalI = i;
+                final int finalJ = j;
+                textViews[i][j].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Implementa la lógica para intercambiar piezas o moverlas
+                        // Usando finalI y finalJ como índices
+                    }
+                });
+            }
+        }
+
+        return view;
     }
+
+    private boolean isValidMove(int row, int col) {
+        // Verifica si la pieza se puede mover a la posición vacía
+        return (Math.abs(row - emptyRow) + Math.abs(col - emptyCol)) == 1;
+    }
+
+    private void swapTiles(int row, int col) {
+        // Intercambia las posiciones de la pieza seleccionada y la vacía
+        String text = textViews[row][col].getText().toString();
+        textViews[emptyRow][emptyCol].setText(text);
+        textViews[row][col].setText("");
+
+        emptyRow = row;
+        emptyCol = col;
+    }
+
 }
