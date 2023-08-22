@@ -26,6 +26,7 @@ import java.util.logging.Logger;
  */
 public class LevelOneFragment extends Fragment {
 
+    private int moves = 0;
     private TextView[][] textViews = new TextView[3][3];
     private static final String[][] SOLVED_ARRANGEMENT = {
             {"1", "2", "3"},
@@ -101,33 +102,35 @@ public class LevelOneFragment extends Fragment {
 
 
 
-    private void initializeTiles(View view){
+    private void initializeTiles(View view) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 String textViewId = "textView" + i + j;
                 int resId = getResources().getIdentifier(textViewId, "id", requireActivity().getPackageName());
                 textViews[i][j] = view.findViewById(resId);
 
-                final int finalI = i;
-                final int finalJ = j;
-                textViews[i][j].setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        System.out.println("Click en " + textViews[finalI][finalJ].getText());
-                        if (isValidMove(finalI, finalJ)) {
-                            swapTiles(finalI, finalJ);
-                            if (isSolved()) {
-                                chronometer.stop();
-                                showWinToast(SystemClock.elapsedRealtime() - chronometer.getBase());
-                            }
-                        }
-                    }
-                });
-
+                setClickListenerForTile(i, j); // Set click listener for this tile
             }
         }
-
     }
+
+    private void setClickListenerForTile(final int row, final int col) {
+        textViews[row][col].setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Click en " + textViews[row][col].getText());
+                if (isValidMove(row, col)) {
+                    swapTiles(row, col);
+                    moves++;
+                    if (isSolved()) {
+                        chronometer.stop();
+                        showWinToast(SystemClock.elapsedRealtime() - chronometer.getBase(), moves);
+                    }
+                }
+            }
+        });
+    }
+
 
     private void shuffleTiles() {
         List<Integer> positions = new ArrayList<>();
@@ -135,9 +138,11 @@ public class LevelOneFragment extends Fragment {
             positions.add(i);
         }
 
+        int emptyPosition = emptyRow * 3 + emptyCol; // Step 1
+
         do {
             Collections.shuffle(positions);
-        } while (!isSolvable(positions));
+        } while (!isSolvable(positions) || positions.indexOf(emptyPosition) != positions.size() - 1); // Step 2
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -155,12 +160,14 @@ public class LevelOneFragment extends Fragment {
                 textViews[newRow][newCol].setBackground(currentBackground);
 
                 if (currentText.equals("")) {
-                    emptyRow = newRow; // Actualizar emptyRow
-                    emptyCol = newCol; // Actualizar emptyCol
+                    emptyRow = newRow; // Update emptyRow
+                    emptyCol = newCol; // Update emptyCol
                 }
             }
         }
     }
+
+
 
 
 
@@ -199,12 +206,12 @@ public class LevelOneFragment extends Fragment {
 
 
 
-    private void showWinToast(long elapsedTime) {
+    private void showWinToast(long elapsedTime, int moves) {
         long seconds = elapsedTime / 1000;
         long minutes = seconds / 60;
         seconds %= 60;
 
-        String message = "Ganaste!  " + minutes + ": " + seconds;
+        String message = "Ganaste!  " + minutes + ": " + seconds + " con " + moves + " movimientos";
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
     }
 
