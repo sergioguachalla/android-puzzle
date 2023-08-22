@@ -1,26 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".HomeFragment"
-    android:background="#9EA0C6">
+    android:background="#9EA0C6"
+    android:gravity="center">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Home Fragment"
-        android:layout_gravity="center_horizontal"
-        android:textSize="30sp"
+        android:text="Bienvenido al rompecabezas"
+        android:textSize="28sp"
         android:textColor="#FFFFFF"
-        />
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_gravity="center" />
 
-    <Button
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="To Level 1"
         android:layout_gravity="center"
-        android:id="@+id/btnToLevel1"
-        />
+        android:orientation="horizontal"
+        android:layout_marginTop="32dp">
 
-</FrameLayout>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Level 1"
+            android:id="@+id/btnToLevel1"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/button_background"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:layout_marginEnd="16dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Level 2"
+            android:id="@+id/btnToLevel2"
+            android:textSize="18sp"
+            android:textColor="#FFFFFF"
+            android:background="@drawable/button_background"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp" />
+
+    </LinearLayout>
+
+</LinearLayout>

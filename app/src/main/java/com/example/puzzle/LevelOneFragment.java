@@ -9,6 +9,7 @@ import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,6 +29,10 @@ public class LevelOneFragment extends Fragment {
 
     private int moves = 0;
     private TextView[][] textViews = new TextView[3][3];
+
+    Button buttonReset, buttonExit;
+
+    private TextView textViewMoves;
     private static final String[][] SOLVED_ARRANGEMENT = {
             {"1", "2", "3"},
             {"4", "5", "6"},
@@ -77,6 +82,30 @@ public class LevelOneFragment extends Fragment {
         chronometer.start();
         initializeTiles(view);
         shuffleTiles();
+        textViewMoves = view.findViewById(R.id.tvMoves);
+        buttonReset = view.findViewById(R.id.btReset);
+        buttonExit = view.findViewById(R.id.btExit);
+        buttonReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moves = 0;
+                textViewMoves.setText("Movimientos: 0");
+                chronometer.setBase(SystemClock.elapsedRealtime());
+                chronometer.start();
+                shuffleTiles();
+            }
+        });
+
+        buttonExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //go to home fragment
+                HomeFragment homeFragment = new HomeFragment();
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
+
+            }
+        });
+
         return view;
     }
 
@@ -119,9 +148,12 @@ public class LevelOneFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 System.out.println("Click en " + textViews[row][col].getText());
+
                 if (isValidMove(row, col)) {
                     swapTiles(row, col);
                     moves++;
+                    String move = "Movimientos: " + moves;
+                    textViewMoves.setText(move);
                     if (isSolved()) {
                         chronometer.stop();
                         showWinToast(SystemClock.elapsedRealtime() - chronometer.getBase(), moves);
