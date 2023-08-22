@@ -5,15 +5,19 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Chronometer;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Logger;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +27,13 @@ import java.util.Random;
 public class LevelOneFragment extends Fragment {
 
     private TextView[][] textViews = new TextView[3][3];
+    private static final String[][] SOLVED_ARRANGEMENT = {
+            {"1", "2", "3"},
+            {"4", "5", "6"},
+            {"7", "8", ""}
+    };
+    Chronometer chronometer;
+
     private int emptyRow = 2; // Fila vacía inicial
     private int emptyCol = 2;
     private static final String ARG_PARAM1 = "param1";
@@ -60,27 +71,35 @@ public class LevelOneFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_level_one, container, false);
+        chronometer = view.findViewById(R.id.chronometer);
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometer.start();
         initializeTiles(view);
         shuffleTiles();
         return view;
     }
 
-    private boolean isValidMove(int row, int col) {
-        return (Math.abs(row - emptyRow) + Math.abs(col - emptyCol)) == 1;
-    }
-
     private void swapTiles(int row, int col) {
-        String text = textViews[row][col].getText().toString();
-        Drawable background = textViews[row][col].getBackground();
-        Drawable emptyBackground = textViews[emptyRow][emptyCol].getBackground();
-        textViews[emptyRow][emptyCol].setText(text);
-        textViews[row][col].setText("X");
-        textViews[row][col].setBackground(emptyBackground);
-        textViews[emptyRow][emptyCol].setBackground(background);
+        if (isValidMove(row, col)) {
+            String text = textViews[row][col].getText().toString();
+            Drawable background = textViews[row][col].getBackground();
+            textViews[emptyRow][emptyCol].setText(text);
+            textViews[row][col].setText(null);
+            textViews[emptyRow][emptyCol].setBackground(background);
+            textViews[row][col].setBackground(null);
+            emptyRow = row;
+            emptyCol = col;
 
-        emptyRow = row;
-        emptyCol = col;
+        }
     }
+
+    private boolean isValidMove(int row, int col) {
+        return (Math.abs(row - emptyRow) == 1 && col == emptyCol) ||
+                (Math.abs(col - emptyCol) == 1 && row == emptyRow);
+    }
+
+
+
 
     private void initializeTiles(View view){
         for (int i = 0; i < 3; i++) {
@@ -94,8 +113,13 @@ public class LevelOneFragment extends Fragment {
                 textViews[i][j].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        System.out.println("Click en " + textViews[finalI][finalJ].getText());
                         if (isValidMove(finalI, finalJ)) {
                             swapTiles(finalI, finalJ);
+                            if (isSolved()) {
+                                chronometer.stop();
+                                showWinToast(SystemClock.elapsedRealtime() - chronometer.getBase());
+                            }
                         }
                     }
                 });
@@ -110,7 +134,10 @@ public class LevelOneFragment extends Fragment {
         for (int i = 0; i < 3 * 3; i++) {
             positions.add(i);
         }
-        Collections.shuffle(positions);
+
+        do {
+            Collections.shuffle(positions);
+        } while (!isSolvable(positions));
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -127,9 +154,9 @@ public class LevelOneFragment extends Fragment {
                 textViews[newRow][newCol].setText(currentText);
                 textViews[newRow][newCol].setBackground(currentBackground);
 
-                if (currentText.equals("X")) {
-                    emptyRow = newRow;
-                    emptyCol = newCol;
+                if (currentText.equals("")) {
+                    emptyRow = newRow; // Actualizar emptyRow
+                    emptyCol = newCol; // Actualizar emptyCol
                 }
             }
         }
@@ -138,8 +165,56 @@ public class LevelOneFragment extends Fragment {
 
 
 
+    private boolean isSolved() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                String currentText = textViews[i][j].getText().toString();
+
+                if (!currentText.equals(SOLVED_ARRANGEMENT[i][j])) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean isSolvable(List<Integer> positions) {
+        int inversions = 0;
+        int blankRowFromBottom = 3 - emptyRow; // Blank cell's row from the bottom
+
+        for (int i = 0; i < positions.size(); i++) {
+            for (int j = i + 1; j < positions.size(); j++) {
+                if (positions.get(i) != 0 && positions.get(j) != 0 && positions.get(i) > positions.get(j)) {
+                    inversions++;
+                }
+            }
+        }
+
+        if (blankRowFromBottom % 2 == 0) {
+            return inversions % 2 == 0;
+        } else {
+            return inversions % 2 != 0;
+        }
+    }
 
 
+
+    private void showWinToast(long elapsedTime) {
+        long seconds = elapsedTime / 1000;
+        long minutes = seconds / 60;
+        seconds %= 60;
+
+        String message = "Ganaste!  " + minutes + ": " + seconds;
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
+    }
 
 
 }
+
+
+
+
+
+
+
+

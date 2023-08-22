@@ -5,7 +5,22 @@
     android:layout_height="match_parent"
     tools:context=".LevelOneFragment"
     android:background="#fffaaa"
+    android:orientation="horizontal"
     >
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:textSize="18sp"
+        android:format="%s"
+        android:gravity="center"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        />
+
+
 
     <GridLayout
         android:id="@+id/gridLayout"
@@ -16,6 +31,7 @@
         android:padding="24dp"
         android:rowCount="3"
         android:layout_marginLeft="80dp">
+
 
         <TextView
             android:id="@+id/textView00"
