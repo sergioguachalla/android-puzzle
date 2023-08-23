@@ -1,14 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LevelTwoFragment">
+    android:orientation="vertical"
+    android:gravity="center"
+    android:background="#9EA0C6">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Welcome to the 4x4 Puzzle!"
+        android:textSize="24sp"
+        android:textColor="#FFFFFF"
+        android:textStyle="bold"
+        android:padding="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_gravity="center" />
 
-</FrameLayout>
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:rowCount="4"
+        android:columnCount="4"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp">
+
+        <!-- Row 1 -->
+        <TextView
+            android:id="@+id/textView00"
+            style="@style/PuzzleTile"
+            android:text="A"/>
+        <TextView
+            android:id="@+id/textView01"
+            style="@style/PuzzleTile"
+            android:text="B"
+            />
+        <TextView
+            android:id="@+id/textView02"
+            style="@style/PuzzleTile"
+            android:text="C"
+            />
+        <TextView
+            android:id="@+id/textView03"
+            style="@style/PuzzleTile"
+            android:text="D"/>
+
+        <!-- Row 2 -->
+        <TextView
+            android:id="@+id/textView10"
+            style="@style/PuzzleTile"
+            android:text="E"/>
+        <TextView
+            android:id="@+id/textView11"
+            style="@style/PuzzleTile"
+            android:text="F"/>
+        <TextView
+            android:id="@+id/textView12"
+            style="@style/PuzzleTile"
+            android:text="G"/>
+        <TextView
+            android:id="@+id/textView13"
+            style="@style/PuzzleTile"
+            android:text="H"/>
+
+        <!-- Row 3 -->
+        <TextView
+            android:id="@+id/textView20"
+            style="@style/PuzzleTile"
+            android:text="I"/>
+        <TextView
+            android:id="@+id/textView21"
+            style="@style/PuzzleTile"
+            android:text="J"/>
+        <TextView
+            android:id="@+id/textView22"
+            style="@style/PuzzleTile"
+            android:text="K"/>
+        <TextView
+            android:id="@+id/textView23"
+            style="@style/PuzzleTile"
+            android:text="L"/>
+
+        <!-- Row 4 -->
+        <TextView
+            android:id="@+id/textView30"
+            style="@style/PuzzleTile"
+            android:text="M"/>
+        <TextView
+            android:id="@+id/textView31"
+            style="@style/PuzzleTile"
+            android:text="N"/>
+        <TextView
+            android:id="@+id/textView32"
+            style="@style/PuzzleTile"
+            android:text="N"/>
+        <TextView
+            android:id="@+id/textView33"
+            style="@style/PuzzleTile" />
+    </GridLayout>
+
+</LinearLayout>
