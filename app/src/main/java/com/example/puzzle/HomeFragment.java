@@ -1,5 +1,7 @@
 package com.example.puzzle;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -8,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,6 +20,8 @@ import android.widget.Button;
 public class HomeFragment extends Fragment {
 
     Button buttonLevelOne, buttonLevelTwo;
+
+    EditText editTextName;
 
 
     private static final String ARG_PARAM1 = "param1";
@@ -62,14 +67,22 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+        editTextName = view.findViewById(R.id.etName);
 
         buttonLevelOne = view.findViewById(R.id.btnToLevel1);
         buttonLevelTwo = view.findViewById(R.id.btnToLevel2);
         buttonLevelOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LevelOneFragment levelOneFragment = new LevelOneFragment();
-                getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, levelOneFragment).commit();
+                String username = editTextName.getText().toString();
+                LevelOneFragment.username = username;
+                if(!username.isEmpty()) {
+                    LevelOneFragment levelOneFragment = new LevelOneFragment();
+
+                    getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, levelOneFragment).commit();
+                }else{
+                    showAlertDialog();
+                }
             }
         });
 
@@ -83,4 +96,19 @@ public class HomeFragment extends Fragment {
 
         return view;
     }
+    private void showAlertDialog(){
+        AlertDialog alertDialog = new AlertDialog.Builder(requireContext())
+                .setTitle("Alerta")
+                .setMessage("El campo de nombre está vacío. Por favor, ingresa tu nombre.")
+                .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Aquí puedes agregar acciones adicionales si es necesario
+                    }
+                })
+                .create();
+
+        alertDialog.show();
+    }
+
 }

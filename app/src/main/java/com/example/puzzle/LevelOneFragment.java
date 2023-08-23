@@ -27,6 +27,7 @@ import java.util.logging.Logger;
  */
 public class LevelOneFragment extends Fragment {
 
+    public static String username;
     private int moves = 0;
     private TextView[][] textViews = new TextView[3][3];
 
@@ -77,6 +78,7 @@ public class LevelOneFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_level_one, container, false);
+
         chronometer = view.findViewById(R.id.chronometer);
         chronometer.setBase(SystemClock.elapsedRealtime());
         chronometer.start();
