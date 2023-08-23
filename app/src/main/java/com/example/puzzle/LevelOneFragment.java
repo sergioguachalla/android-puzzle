@@ -33,7 +33,7 @@ public class LevelOneFragment extends Fragment {
 
     Button buttonReset, buttonExit;
 
-    private TextView textViewMoves;
+    private TextView textViewMoves,textViewUsername;
     private static final String[][] SOLVED_ARRANGEMENT = {
             {"1", "2", "3"},
             {"4", "5", "6"},
@@ -87,6 +87,9 @@ public class LevelOneFragment extends Fragment {
         textViewMoves = view.findViewById(R.id.tvMoves);
         buttonReset = view.findViewById(R.id.btReset);
         buttonExit = view.findViewById(R.id.btExit);
+        textViewUsername = view.findViewById(R.id.etUsername);
+        textViewUsername.setText(username);
+        textViewMoves.setText("Movimientos : o");
         buttonReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,11 +175,21 @@ public class LevelOneFragment extends Fragment {
             positions.add(i);
         }
 
-        int emptyPosition = emptyRow * 3 + emptyCol; // Step 1
+        int emptyPosition = emptyRow * 3 + emptyCol;
 
+        // Realiza la mezcla aleatoria, pero limita la cantidad de intentos para evitar bloqueos
+        int attempts = 0;
+        final int MAX_ATTEMPTS = 1000;
         do {
             Collections.shuffle(positions);
-        } while (!isSolvable(positions) || positions.indexOf(emptyPosition) != positions.size() - 1); // Step 2
+            attempts++;
+        } while ((!isSolvable(positions) || positions.indexOf(emptyPosition) != positions.size() - 1) && attempts < MAX_ATTEMPTS);
+
+        if (attempts >= MAX_ATTEMPTS) {
+            // Manejar aquí la situación si la mezcla no puede generar una solución después de muchos intentos
+            // Por ejemplo, podrías mostrar un mensaje de error al usuario
+            return;
+        }
 
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -187,6 +200,7 @@ public class LevelOneFragment extends Fragment {
                 String currentText = textViews[i][j].getText().toString();
                 Drawable currentBackground = textViews[i][j].getBackground();
 
+                // Intercambia el texto y el fondo entre las casillas
                 textViews[i][j].setText(textViews[newRow][newCol].getText());
                 textViews[i][j].setBackground(textViews[newRow][newCol].getBackground());
 
@@ -194,12 +208,13 @@ public class LevelOneFragment extends Fragment {
                 textViews[newRow][newCol].setBackground(currentBackground);
 
                 if (currentText.equals("")) {
-                    emptyRow = newRow; // Update emptyRow
-                    emptyCol = newCol; // Update emptyCol
+                    emptyRow = newRow;
+                    emptyCol = newCol;
                 }
             }
         }
     }
+
 
 
 
