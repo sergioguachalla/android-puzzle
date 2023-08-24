@@ -118,10 +118,11 @@ public class LevelOneFragment extends Fragment {
         if (isValidMove(row, col)) {
             String text = textViews[row][col].getText().toString();
             Drawable background = textViews[row][col].getBackground();
+            Drawable emptyBackground = textViews[emptyRow][emptyCol].getBackground();
             textViews[emptyRow][emptyCol].setText(text);
             textViews[row][col].setText(null);
             textViews[emptyRow][emptyCol].setBackground(background);
-            textViews[row][col].setBackground(null);
+            textViews[row][col].setBackground(emptyBackground);
             emptyRow = row;
             emptyCol = col;
 
@@ -177,7 +178,6 @@ public class LevelOneFragment extends Fragment {
 
         int emptyPosition = emptyRow * 3 + emptyCol;
 
-        // Realiza la mezcla aleatoria, pero limita la cantidad de intentos para evitar bloqueos
         int attempts = 0;
         final int MAX_ATTEMPTS = 1000;
         do {
@@ -186,8 +186,7 @@ public class LevelOneFragment extends Fragment {
         } while ((!isSolvable(positions) || positions.indexOf(emptyPosition) != positions.size() - 1) && attempts < MAX_ATTEMPTS);
 
         if (attempts >= MAX_ATTEMPTS) {
-            // Manejar aquí la situación si la mezcla no puede generar una solución después de muchos intentos
-            // Por ejemplo, podrías mostrar un mensaje de error al usuario
+            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
             return;
         }
 
