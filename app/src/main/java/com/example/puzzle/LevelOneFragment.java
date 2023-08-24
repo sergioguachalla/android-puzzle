@@ -89,7 +89,7 @@ public class LevelOneFragment extends Fragment {
         buttonExit = view.findViewById(R.id.btExit);
         textViewUsername = view.findViewById(R.id.etUsername);
         textViewUsername.setText(username);
-        textViewMoves.setText("Movimientos : o");
+        textViewMoves.setText("Movimientos : 0");
         buttonReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

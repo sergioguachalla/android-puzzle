@@ -75,7 +75,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String username = editTextName.getText().toString();
-                LevelOneFragment.username = username;
+                LevelOneFragment.username = "Bienvenido " + username + "!";
                 if(!username.isEmpty()) {
                     LevelOneFragment levelOneFragment = new LevelOneFragment();
 

@@ -9,6 +9,7 @@ import android.os.SystemClock;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +29,8 @@ public class LevelTwoFragment extends Fragment {
     private int emptyCol = 3;
 
     private int moves = 0;
+
+    Button buttonReset, buttonExit;
 
     //letters
     private static final String[][] SOLVED_ARRANGEMENT = {
@@ -80,8 +83,28 @@ public class LevelTwoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_level_two, container, false);
 
+        buttonExit = view.findViewById(R.id.btExit);
+        buttonReset = view.findViewById(R.id.btReset);
+
+        buttonReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                moves = 0;
+                shuffleTiles();
+            }
+        });
+
+        buttonExit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
+            }
+        });
+
+
         initializeTiles(view);
         shuffleTiles();
+
         return view;
     }
 
@@ -89,10 +112,11 @@ public class LevelTwoFragment extends Fragment {
         if (isValidMove(row, col)) {
             String text = textViews[row][col].getText().toString();
             Drawable background = textViews[row][col].getBackground();
+            Drawable backgroundEmpty = textViews[emptyRow][emptyCol].getBackground();
             textViews[emptyRow][emptyCol].setText(text);
             textViews[row][col].setText(null);
             textViews[emptyRow][emptyCol].setBackground(background);
-            textViews[row][col].setBackground(null);
+            textViews[row][col].setBackground(backgroundEmpty);
             emptyRow = row;
             emptyCol = col;
         }

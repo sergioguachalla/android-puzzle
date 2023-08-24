@@ -6,39 +6,54 @@
     tools:context=".LevelOneFragment"
     android:background="#659BE0"
     android:orientation="vertical"
-    android:layout_centerInParent="true"
-    >
-    <Chronometer
-        android:id="@+id/chronometer"
+    android:layout_centerInParent="true">
+
+    <LinearLayout
+        android:id="@+id/linearLayoutChronometer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
-        android:text="Cronómetro"
-        android:textSize="24sp"
-        android:format="%s"
+        android:layout_marginBottom="36dp"
+        android:layout_above="@id/gridLayout"
         android:gravity="center"
-        android:textColor="@android:color/white"
-        android:textStyle="bold"
-        android:background="@drawable/chronometer_background"
-        />
+        android:orientation="vertical"
+        android:weightSum="2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cronómetro"
+            android:textSize="18sp"
+            android:textColor="@android:color/white" />
+
+        <Chronometer
+            android:id="@+id/chronometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="28sp"
+            android:format="%s"
+            android:gravity="center"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Movimientos:"
-        android:textSize="20sp"
-        android:layout_below="@+id/chronometer"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/tvMoves"
-        />
-
-    <TextView
+        android:id="@+id/etUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="30dp"
-        android:id="@+id/etUsername"
-        />
+        android:layout_above="@+id/linearLayoutChronometer"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/tvMoves"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Movimientos:"
+        android:textSize="24sp"
+        android:layout_below="@+id/linearLayoutChronometer"
+        android:layout_centerHorizontal="true"
+        android:textColor="@android:color/white" />
 
     <GridLayout
         android:id="@+id/gridLayout"
@@ -47,15 +62,13 @@
         android:layout_centerInParent="true"
         android:layout_marginLeft="80dp"
         android:columnCount="3"
-        android:padding="28dp"
+        android:padding="36dp"
         android:rowCount="3">
-
 
         <TextView
             android:id="@+id/textView00"
             style="@style/PuzzleTile"
-            android:text="1"
-          />
+            android:text="1" />
 
         <TextView
             android:id="@+id/textView01"
@@ -80,56 +93,52 @@
             android:id="@+id/textView11"
             style="@style/PuzzleTile"
 
-            android:text="5"
-      />
+            android:text="5" />
 
         <TextView
             android:id="@+id/textView12"
             style="@style/PuzzleTile"
 
-            android:text="6"
-/>
+            android:text="6" />
 
 
         <TextView
             android:id="@+id/textView20"
             style="@style/PuzzleTile"
 
-            android:text="7"
-             />
+            android:text="7" />
 
 
         <TextView
             android:id="@+id/textView21"
             style="@style/PuzzleTile"
 
-            android:text="8"
-/>
+            android:text="8" />
 
         <TextView
             android:id="@+id/textView22"
             style="@style/EmptyPuzzleTile"
-            android:textColor="#ffffff"
             android:text=""
+            android:textColor="#ffffff"
 
-     />
+            />
 
 
     </GridLayout>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_below="@+id/gridLayout"
-        android:weightSum="2"
         android:layout_centerHorizontal="true"
-        >
+        android:gravity="center"
+        android:weightSum="2">
+
         <Button
             android:id="@+id/btReset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Reiniciar"
-
             android:textSize="18sp"
             android:backgroundTint="#69AB4D"
             android:textColor="#ffffff"
@@ -146,7 +155,6 @@
             android:backgroundTint="#F7B394"
             android:textColor="#ffffff"
             android:layout_weight="1" />
-
 
     </LinearLayout>
 

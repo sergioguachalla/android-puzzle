@@ -8,10 +8,24 @@
     android:gravity="center"
     android:background="#9EA0C6">
 
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Cronómetro"
+        android:textSize="24sp"
+        android:format="%s"
+        android:gravity="center"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:background="@drawable/chronometer_background"
+        />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Welcome to the 4x4 Puzzle!"
+        android:text="Movimientos: "
         android:textSize="24sp"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
@@ -99,7 +113,40 @@
             android:text="O"/>
         <TextView
             android:id="@+id/textView33"
-            style="@style/PuzzleTile" />
+            style="@style/EmptyPuzzleTile" />
     </GridLayout>
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_below="@+id/gridLayout"
+        android:weightSum="2"
+        android:layout_centerHorizontal="true"
+        >
+        <Button
+            android:id="@+id/btReset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Reiniciar"
+
+            android:textSize="18sp"
+            android:backgroundTint="#69AB4D"
+            android:textColor="#ffffff"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/btExit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Salir"
+            android:textSize="18sp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="#F7B394"
+            android:textColor="#ffffff"
+            android:layout_weight="1" />
+
+
+    </LinearLayout>
 </LinearLayout>
