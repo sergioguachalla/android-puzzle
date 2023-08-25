@@ -175,24 +175,7 @@ public class LevelOneFragment extends Fragment {
                     if (isSolved()) {
                         chronometer.stop();
 
-
-                        View popupView = LayoutInflater.from(getContext() ).inflate(R.layout.popup_layout, null);
-
-                        TextView timeTextView = popupView.findViewById(R.id.timeTextView);
-                        TextView movesTextView = popupView.findViewById(R.id.movesTextView);
-
-                        long elapsedTime = SystemClock.elapsedRealtime() - chronometer.getBase();
-                        String formattedTime = "Tiempo: " +  elapsedTime / 1000 + " segundos";
-
-                        String formattedMoves = "Movimientos: " + moves;
-
-                        timeTextView.setText(formattedTime);
-                        movesTextView.setText(formattedMoves);
-                        View rootView = getActivity().getWindow().getDecorView();
-
-
-                        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
-                        popupWindow.showAtLocation(rootView, Gravity.CENTER, 0, 0);
+                        showPopup();
                     }
 
                 }
@@ -256,8 +239,26 @@ public class LevelOneFragment extends Fragment {
     }
 
 
+    private void showPopup(){
+
+        View popupView = LayoutInflater.from(getContext() ).inflate(R.layout.popup_layout, null);
+
+        TextView timeTextView = popupView.findViewById(R.id.timeTextView);
+        TextView movesTextView = popupView.findViewById(R.id.movesTextView);
+
+        long elapsedTime = SystemClock.elapsedRealtime() - chronometer.getBase();
+        String formattedTime = "Tiempo: " +  elapsedTime / 1000 + " segundos";
+
+        String formattedMoves = "Movimientos: " + moves;
+
+        timeTextView.setText(formattedTime);
+        movesTextView.setText(formattedMoves);
+        View rootView = getActivity().getWindow().getDecorView();
 
 
+        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.showAtLocation(rootView, Gravity.CENTER, 0, 0);
+    }
 
     private boolean isSolved() {
         for (int i = 0; i < 3; i++) {

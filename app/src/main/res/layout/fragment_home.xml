@@ -41,7 +41,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start Level 1"
+            android:text="Iniciar el nivel 1"
             android:id="@+id/btnToLevel1"
             android:textSize="18sp"
             android:textColor="#FFFFFF"
@@ -55,7 +55,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start Level 2"
+            android:text="Iniciar el nivel 2"
             android:id="@+id/btnToLevel2"
             android:textSize="18sp"
             android:textColor="#FFFFFF"

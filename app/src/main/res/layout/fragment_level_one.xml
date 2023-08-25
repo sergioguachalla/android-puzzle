@@ -143,15 +143,16 @@
             android:backgroundTint="#69AB4D"
             android:textColor="#ffffff"
             android:layout_weight="1" />
+
         <Button
             android:id="@+id/btSolve"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Solucionar"
-            android:textSize="18sp"
+            android:layout_weight="1"
             android:backgroundTint="#69AB4D"
+            android:text="Solucionar"
             android:textColor="#ffffff"
-            android:layout_weight="1" />
+            android:textSize="18sp" />
 
         <Button
             android:id="@+id/btExit"

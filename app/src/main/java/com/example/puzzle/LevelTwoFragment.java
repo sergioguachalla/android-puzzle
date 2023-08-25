@@ -6,11 +6,13 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.os.SystemClock;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +35,7 @@ public class LevelTwoFragment extends Fragment {
 
     private int moves = 0;
 
-    Button buttonReset, buttonExit;
+    Button buttonReset, buttonExit, buttonSolve;
     private TextView textViewMoves,textViewUsername;
 
 
@@ -90,6 +92,7 @@ public class LevelTwoFragment extends Fragment {
 
         buttonExit = view.findViewById(R.id.btExit);
         buttonReset = view.findViewById(R.id.btReset);
+        buttonSolve = view.findViewById(R.id.btSolve);
         textViewUsername = view.findViewById(R.id.etUsername);
         textViewMoves = view.findViewById(R.id.tvMoves);
         textViewUsername.setText(username);
@@ -116,6 +119,15 @@ public class LevelTwoFragment extends Fragment {
             }
         });
 
+
+        buttonSolve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                solvePuzzle();
+                chronometer.stop();
+
+            }
+        });
 
         initializeTiles(view);
         shuffleTiles();
@@ -169,13 +181,51 @@ public class LevelTwoFragment extends Fragment {
                     String move = "Movimientos: " + moves;
                     textViewMoves.setText(move);
                     if (isSolved()) {
-                       Toast.makeText(requireContext(), "Ganaste!", Toast.LENGTH_LONG).show();
+                        chronometer.stop();
+                        showWinToast(SystemClock.elapsedRealtime() - chronometer.getBase(), moves);
+                        showPopup();
                     }
                 }
             }
         });
     }
 
+    private void solvePuzzle() {
+        // Initialize the tiles in order.
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                char letter = (char)(i * 4 + j + 65);
+                textViews[i][j].setText(String.valueOf(letter));
+            }
+        }
+        textViews[3][3].setText("");
+    }
+
+
+    private void showPopup(){
+
+        View popupView = LayoutInflater.from(getContext() ).inflate(R.layout.popup_layout, null);
+
+        TextView timeTextView = popupView.findViewById(R.id.timeTextView);
+        TextView movesTextView = popupView.findViewById(R.id.movesTextView);
+        TextView scoreTextView = popupView.findViewById(R.id.scoreTextView);
+
+        long elapsedTime = SystemClock.elapsedRealtime() - chronometer.getBase();
+        String formattedTime = "Tiempo: " +  elapsedTime / 1000 + " segundos";
+
+        String formattedMoves = "Movimientos: " + moves;
+
+        String score = "Puntaje: " + getScore(moves);
+
+        timeTextView.setText(formattedTime);
+        movesTextView.setText(formattedMoves);
+        scoreTextView.setText(score);
+        View rootView = getActivity().getWindow().getDecorView();
+
+
+        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.showAtLocation(rootView, Gravity.CENTER, 0, 0);
+    }
 
     private void shuffleTiles() {
         List<Integer> positions = new ArrayList<>();
@@ -258,6 +308,14 @@ public class LevelTwoFragment extends Fragment {
 
         String message = "Ganaste!  " + minutes + ": " + seconds + " con " + moves + " movimientos";
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
+    }
+
+    private Double getScore(int moves){
+        //the score is between 0 and 100
+
+        return 100.0 - (moves * 2.5);
+
+
     }
 
 }

@@ -7,6 +7,7 @@
     android:padding="16dp"
     android:background="#5F89B6"
     android:elevation="8dp"
+    android:animateLayoutChanges="@android:anim/fade_in"
     >
 
     <TextView
@@ -39,6 +40,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Movimientos: 0"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"/>
+    <TextView
+        android:id="@+id/scoreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Score: 0"
         android:textSize="16sp"
         android:textColor="@android:color/black"
         android:layout_gravity="center_horizontal"
