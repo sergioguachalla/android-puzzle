@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cronómetro"
-            android:textSize="18sp"
+            android:textSize="24sp"
             android:textColor="@android:color/white" />
 
         <Chronometer
@@ -132,13 +132,22 @@
         android:layout_below="@+id/gridLayout"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:weightSum="2">
+        android:weightSum="3">
 
         <Button
             android:id="@+id/btReset"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Reiniciar"
+            android:textSize="18sp"
+            android:backgroundTint="#69AB4D"
+            android:textColor="#ffffff"
+            android:layout_weight="1" />
+        <Button
+            android:id="@+id/btSolve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Solucionar"
             android:textSize="18sp"
             android:backgroundTint="#69AB4D"
             android:textColor="#ffffff"

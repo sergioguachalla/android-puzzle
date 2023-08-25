@@ -22,6 +22,7 @@ public class HomeFragment extends Fragment {
     Button buttonLevelOne, buttonLevelTwo;
 
     EditText editTextName;
+    String username;
 
 
     private static final String ARG_PARAM1 = "param1";
@@ -74,7 +75,7 @@ public class HomeFragment extends Fragment {
         buttonLevelOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = editTextName.getText().toString();
+                username = editTextName.getText().toString();
                 LevelOneFragment.username = "Bienvenido " + username + "!";
                 if(!username.isEmpty()) {
                     LevelOneFragment levelOneFragment = new LevelOneFragment();
@@ -89,8 +90,14 @@ public class HomeFragment extends Fragment {
         buttonLevelTwo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LevelTwoFragment levelTwoFragment = new LevelTwoFragment();
-                getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, levelTwoFragment).commit();
+                username = editTextName.getText().toString();
+                LevelTwoFragment.username = "Bienvenido " + username + "!";
+                if(!username.isEmpty()) {
+                    LevelTwoFragment levelTwoFragment = new LevelTwoFragment();
+                    getParentFragmentManager().beginTransaction().replace(R.id.fragment_container, levelTwoFragment).commit();
+                }else{
+                    showAlertDialog();
+                }
             }
         });
 

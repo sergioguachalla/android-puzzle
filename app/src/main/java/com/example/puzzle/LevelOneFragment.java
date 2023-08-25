@@ -6,17 +6,21 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.os.SystemClock;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Random;
 import java.util.logging.Logger;
 
@@ -31,7 +35,7 @@ public class LevelOneFragment extends Fragment {
     private int moves = 0;
     private TextView[][] textViews = new TextView[3][3];
 
-    Button buttonReset, buttonExit;
+    Button buttonReset, buttonExit, buttonSolve;
 
     private TextView textViewMoves,textViewUsername;
     private static final String[][] SOLVED_ARRANGEMENT = {
@@ -84,10 +88,11 @@ public class LevelOneFragment extends Fragment {
         chronometer.start();
         initializeTiles(view);
         shuffleTiles();
-        textViewMoves = view.findViewById(R.id.tvMoves);
         buttonReset = view.findViewById(R.id.btReset);
         buttonExit = view.findViewById(R.id.btExit);
+        buttonSolve = view.findViewById(R.id.btSolve);
         textViewUsername = view.findViewById(R.id.etUsername);
+        textViewMoves = view.findViewById(R.id.tvMoves);
         textViewUsername.setText(username);
         textViewMoves.setText("Movimientos : 0");
         buttonReset.setOnClickListener(new View.OnClickListener() {
@@ -104,10 +109,17 @@ public class LevelOneFragment extends Fragment {
         buttonExit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //go to home fragment
+
                 HomeFragment homeFragment = new HomeFragment();
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, homeFragment).commit();
 
+            }
+        });
+
+        buttonSolve.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                solvePuzzle();
             }
         });
 
@@ -136,7 +148,6 @@ public class LevelOneFragment extends Fragment {
 
 
 
-
     private void initializeTiles(View view) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -144,10 +155,11 @@ public class LevelOneFragment extends Fragment {
                 int resId = getResources().getIdentifier(textViewId, "id", requireActivity().getPackageName());
                 textViews[i][j] = view.findViewById(resId);
 
-                setClickListenerForTile(i, j); // Set click listener for this tile
+                setClickListenerForTile(i, j);
             }
         }
     }
+
 
     private void setClickListenerForTile(final int row, final int col) {
         textViews[row][col].setOnClickListener(new View.OnClickListener() {
@@ -162,8 +174,27 @@ public class LevelOneFragment extends Fragment {
                     textViewMoves.setText(move);
                     if (isSolved()) {
                         chronometer.stop();
-                        showWinToast(SystemClock.elapsedRealtime() - chronometer.getBase(), moves);
+
+
+                        View popupView = LayoutInflater.from(getContext() ).inflate(R.layout.popup_layout, null);
+
+                        TextView timeTextView = popupView.findViewById(R.id.timeTextView);
+                        TextView movesTextView = popupView.findViewById(R.id.movesTextView);
+
+                        long elapsedTime = SystemClock.elapsedRealtime() - chronometer.getBase();
+                        String formattedTime = "Tiempo: " +  elapsedTime / 1000 + " segundos";
+
+                        String formattedMoves = "Movimientos: " + moves;
+
+                        timeTextView.setText(formattedTime);
+                        movesTextView.setText(formattedMoves);
+                        View rootView = getActivity().getWindow().getDecorView();
+
+
+                        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+                        popupWindow.showAtLocation(rootView, Gravity.CENTER, 0, 0);
                     }
+
                 }
             }
         });
@@ -214,7 +245,15 @@ public class LevelOneFragment extends Fragment {
         }
     }
 
-
+    private void solvePuzzle() {
+        // Initialize the tiles in order.
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                textViews[i][j].setText(String.valueOf(i * 3 + j + 1));
+            }
+        }
+        textViews[2][2].setText("");
+    }
 
 
 

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,14 +24,18 @@ import java.util.List;
  * create an instance of this fragment.
  */
 public class LevelTwoFragment extends Fragment {
+    public static String username;
 
     private TextView[][] textViews = new TextView[4][4];
+    Chronometer chronometer;
     private int emptyRow = 3;
     private int emptyCol = 3;
 
     private int moves = 0;
 
     Button buttonReset, buttonExit;
+    private TextView textViewMoves,textViewUsername;
+
 
     //letters
     private static final String[][] SOLVED_ARRANGEMENT = {
@@ -85,11 +90,21 @@ public class LevelTwoFragment extends Fragment {
 
         buttonExit = view.findViewById(R.id.btExit);
         buttonReset = view.findViewById(R.id.btReset);
+        textViewUsername = view.findViewById(R.id.etUsername);
+        textViewMoves = view.findViewById(R.id.tvMoves);
+        textViewUsername.setText(username);
+        textViewMoves.setText("Movimientos : 0");
+        chronometer = view.findViewById(R.id.chronometer);
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometer.start();
 
         buttonReset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 moves = 0;
+                textViewMoves.setText("Movimientos: 0");
+                chronometer.setBase(SystemClock.elapsedRealtime());
+                chronometer.start();
                 shuffleTiles();
             }
         });
@@ -152,7 +167,7 @@ public class LevelTwoFragment extends Fragment {
                     swapTiles(row, col);
                     moves++;
                     String move = "Movimientos: " + moves;
-
+                    textViewMoves.setText(move);
                     if (isSolved()) {
                        Toast.makeText(requireContext(), "Ganaste!", Toast.LENGTH_LONG).show();
                     }
